@@ -1,4 +1,4 @@
-package br.com.stapassoli.learnCamelSpring.dto;
+package br.com.stapassoli.learnCamelSpring.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

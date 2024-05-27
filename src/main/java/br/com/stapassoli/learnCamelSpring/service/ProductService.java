@@ -3,7 +3,7 @@ package br.com.stapassoli.learnCamelSpring.service;
 import br.com.stapassoli.learnCamelSpring.domain.Product;
 import br.com.stapassoli.learnCamelSpring.dto.ProductCodeDTO;
 import br.com.stapassoli.learnCamelSpring.dto.ProductCreateDTO;
-import br.com.stapassoli.learnCamelSpring.dto.ProductUpdateDTO;
+import br.com.stapassoli.learnCamelSpring.domain.ProductUpdateDTO;
 import br.com.stapassoli.learnCamelSpring.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,9 @@ public class ProductService {
 
     public void callCamelRoute(Product product) {
         producerTemplate.setDefaultEndpointUri("direct:product-route");
-        ProductCodeDTO response = producerTemplate.requestBody("direct:product-route", product, ProductCodeDTO.class);
-        System.out.println(response.getCode());
+        producerTemplate.requestBody("direct:product-route", product);
+        //ProductCodeDTO response = producerTemplate.requestBody("direct:product-route", product, ProductCodeDTO.class);
+        //System.out.println(response.getCode());
     }
 
     public Product createProduct(ProductCreateDTO productCreateDTO) {
@@ -46,9 +47,10 @@ public class ProductService {
     }
 
     public ProductCodeDTO generateCodeToProduct() {
+        String code = UUID.randomUUID().toString();
         return ProductCodeDTO
                 .builder()
-                .code(UUID.randomUUID().toString())
+                .code(code)
                 .build();
     }
 

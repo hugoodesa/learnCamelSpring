@@ -3,7 +3,7 @@ package br.com.stapassoli.learnCamelSpring.rest;
 import br.com.stapassoli.learnCamelSpring.domain.Product;
 import br.com.stapassoli.learnCamelSpring.dto.ProductCodeDTO;
 import br.com.stapassoli.learnCamelSpring.dto.ProductCreateDTO;
-import br.com.stapassoli.learnCamelSpring.dto.ProductUpdateDTO;
+import br.com.stapassoli.learnCamelSpring.domain.ProductUpdateDTO;
 import br.com.stapassoli.learnCamelSpring.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

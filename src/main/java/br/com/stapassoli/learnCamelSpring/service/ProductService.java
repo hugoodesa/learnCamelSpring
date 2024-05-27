@@ -1,6 +1,7 @@
 package br.com.stapassoli.learnCamelSpring.service;
 
 import br.com.stapassoli.learnCamelSpring.domain.Product;
+import br.com.stapassoli.learnCamelSpring.dto.ProductCodeDTO;
 import br.com.stapassoli.learnCamelSpring.dto.ProductCreateDTO;
 import br.com.stapassoli.learnCamelSpring.dto.ProductUpdateDTO;
 import br.com.stapassoli.learnCamelSpring.repository.ProductRepository;
@@ -20,8 +21,8 @@ public class ProductService {
 
     public void callCamelRoute(Product product) {
         producerTemplate.setDefaultEndpointUri("direct:product-route");
-        String response = producerTemplate.requestBody("direct:product-route", product, String.class);
-        System.out.println(response);
+        ProductCodeDTO response = producerTemplate.requestBody("direct:product-route", product, ProductCodeDTO.class);
+        System.out.println(response.getCode());
     }
 
     public Product createProduct(ProductCreateDTO productCreateDTO) {
@@ -44,15 +45,15 @@ public class ProductService {
         return this.repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Not possible to find the product"));
     }
 
-    /*public ProductCodeDTO generateCodeToProduct() {
+    public ProductCodeDTO generateCodeToProduct() {
         return ProductCodeDTO
                 .builder()
                 .code(UUID.randomUUID().toString())
                 .build();
-    }*/
-
-    public String generateCodeToProduct() {
-        return UUID.randomUUID().toString();
     }
+
+    /*public String generateCodeToProduct() {
+        return UUID.randomUUID().toString();
+    }*/
 
 }

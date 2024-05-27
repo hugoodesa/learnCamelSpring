@@ -22,7 +22,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<String> generateCode() {
+    public ResponseEntity<ProductCodeDTO> generateCode() {
         return ResponseEntity.ok(this.service.generateCodeToProduct());
     }
 

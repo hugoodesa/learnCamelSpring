@@ -1,5 +1,6 @@
 package br.com.stapassoli.learnCamelSpring.routes;
 
+import br.com.stapassoli.learnCamelSpring.domain.ProductUpdateDTO;
 import br.com.stapassoli.learnCamelSpring.dto.ProductCodeDTO;
 import br.com.stapassoli.learnCamelSpring.routes.processor.UpdateProductProcessor;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http.HttpMethods;
 import org.apache.camel.component.jackson.JacksonDataFormat;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,13 +37,20 @@ public class ProductRouter extends RouteBuilder {
                 .log("Generate code : ${body}")
                 .unmarshal(new JacksonDataFormat(ProductCodeDTO.class))
                 .setProperty(PRODUCT_CODE_BODY_PROPERTIE, body()) //code
-                .process(updateProductProcessor)
+                .to(PRODUCT_UPDATE_ROUTE)
                 .end();
 
         from(PRODUCT_UPDATE_ROUTE)
                 .id(PRODUCT_UPDATE_ROUTE)
-                .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.PUT))
+                .marshal(new JacksonDataFormat(ProductCodeDTO.class))
                 .process(updateProductProcessor)
+                //.setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.PUT))
+                //.convertBodyTo(ProductUpdateDTO.class)
+                //.unmarshal(new JacksonDataFormat(ProductUpdateDTO.class))
+                /*.toD(URI.concat(GENERATE_CODE))
+                .process(e->{
+                    System.out.println(e);
+                })*/
                 .end();
 
     }
